@@ -46,6 +46,33 @@ scp go-pwm-example root@omega-xxxx.local:/root/
 
 # How to run
 
+## Pin mux configuration
+Note: Pin muxing must be set appropriately for the pwm channel being used.
+
+For example:
+```
+# omega2-ctrl gpiomux get
+Group i2c - [i2c] gpio
+Group uart0 - [uart] gpio
+Group uart1 - [uart] gpio pwm01
+Group uart2 - [uart] gpio pwm23
+Group pwm0 - pwm [gpio]
+Group pwm1 - pwm [gpio]
+Group refclk - refclk [gpio]
+Group spi_s - spi_s [gpio] pwm01_uart2
+Group spi_cs1 - [spi_cs1] gpio refclk
+Group i2s - i2s [gpio] pcm
+Group ephy - [ephy] gpio
+Group wled - wled [gpio]
+```
+
+Assuming we are using pwm channel 0 (GPIO18) you'll reconfigure this pin for pwm mode via:
+```
+# omega2-ctrl gpiomux set pwm0 pwm
+set gpiomux pwm0 -> pwm
+```
+
+## Running
 ```
 ./go-pwm-example
 
