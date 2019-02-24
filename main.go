@@ -35,6 +35,8 @@ func main() {
 
 	parseCommandLineOptions(&commandLineOptions)
 
+
+	fmt.Printf("pwm channel: %d, frequencyHz: %f\n", *commandLineOptions.channel, *commandLineOptions.frequencyHz)
 	fmt.Printf("Pass '-help' as an argument to see usage\n\n")
 
 	pwm, err := pwm.New(logger, *commandLineOptions.channel, *commandLineOptions.frequencyHz)
