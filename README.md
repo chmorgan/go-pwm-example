@@ -21,9 +21,8 @@ mkdir ~/go
 cd ~/go
 mkdir src
 export GOPATH=`pwd`
-go get https://github.com/chmorgan/go-pwm-example
+go get github.com/chmorgan/go-pwm-example
 cd src/github.com/chmorgan/go-pwm-example
-go get .
 ```
 
 ## Build for the Omega2
