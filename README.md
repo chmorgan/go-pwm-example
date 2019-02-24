@@ -78,7 +78,6 @@ set gpiomux pwm0 -> pwm
 ## Running
 ```
 ./go-pwm-example
-
 ```
 
 And to get command line help you can pass the '-help' option:
