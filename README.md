@@ -30,6 +30,9 @@ cd src/github.com/chmorgan/go-pwm-example
 golang has support for a number of architectures built in, this makes it well suited for cross platform
 development.
 
+The Omega2 uses a MediaTek MT7688 SoC. This processor is a mips architecture and little endian is being used.
+Therefore the architecture is 'mips' + 'le', or 'mipsle'.
+
 ```
 GOOS=linux GOARCH=mipsle go build
 ```
