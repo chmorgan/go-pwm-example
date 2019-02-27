@@ -1,8 +1,9 @@
-//Package pwm package manages a sysfs exposed pwm pin, providing helpers to configure the pwm signal
+//Package pwm manages a sysfs exposed pwm pin, providing helpers to configure the pwm signal
 // using more commonly understood values such as frequency and duty cycles
 //
 // NOTE:
-//   When changing period, period must be >= duty_ycle or the device will reject the change
+//   When changing period, period must be >= duty_ycle or the device will reject the change, see
+//   https://github.com/torvalds/linux/blob/master/drivers/pwm/core.c#L471
 package pwm
 
 import (
@@ -62,12 +63,22 @@ func New(logger *zap.SugaredLogger, channel int, frequencyHz float64) (*Instance
 		return nil, err
 	}
 
-	// ensure that duty_cycle is lower than period, see package notes
-	initialDutyCycle := uint32(0)
-	err = pin.SetDutyCycle(initialDutyCycle)
+	period, err := pin.Period()
 	if err != nil {
-		logger.Errorw(err.Error(), "pwm initial duty_cycle failed", initialDutyCycle)
+		logger.Errorw(err.Error(), "pwm pin period read failed", channel)
 		return nil, err
+	}
+
+	// if period is non-zero then the pwm is considered active by the kernel
+	// See https://github.com/torvalds/linux/blob/master/drivers/pwm/core.c#L471s
+	if period != 0 {
+		// if the pwm is active ensure that duty_cycle is lower than period, see package notes
+		initialDutyCycle := uint32(0)
+		err = pin.SetDutyCycle(initialDutyCycle)
+		if err != nil {
+			logger.Errorw(err.Error(), "pwm initial duty_cycle failed", initialDutyCycle)
+			return nil, err
+		}
 	}
 
 	periodNanoseconds := i.getPwmPeriodNanoseconds()
