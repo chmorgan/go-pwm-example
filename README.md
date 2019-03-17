@@ -9,20 +9,16 @@ compute modules that have PWM hardware exposed to Linux.
 
 gobot.io's sysfs module is used to provide access to the pwm hardware
 
-# How to build (for inexperienced golang users)
+# How to build
 
-golang has particular conventions for its approach to workspaces.
-
-* Determine where your golang workspace will be, a good location is ~/go. The rest of these steps assume
-that directory is your workspace. Swap it out with your actual workspace directory if it differs.
+The project has been updated to take advantage of go's new module support. This makes it
+easy to build.
 
 ```
-mkdir ~/go
-cd ~/go
-mkdir src
-export GOPATH=`pwd`
-go get github.com/chmorgan/go-pwm-example
-cd src/github.com/chmorgan/go-pwm-example
+<go to where you'd like to place the 'go-pwm-example' directory>
+git clone https://github.com/chmorgan/go-pwm-example.git
+cd go-pwm-example
+go build
 ```
 
 ## Build for the Omega2
